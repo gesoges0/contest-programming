@@ -1,0 +1,15 @@
+set :: [Int]
+set = [x | x <- takeWhile (<= limit) fibs, even x]
+    where
+	fibs = 1 : 1 zipWith (+) fibs (tail fibs)
+limit :: Int
+limit = 1000000
+
+ans :: Int
+ans = sum $ set
+
+
+main :: IO()
+main = do
+     print ans
+     
