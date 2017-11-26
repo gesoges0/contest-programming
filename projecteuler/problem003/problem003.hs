@@ -1,23 +1,19 @@
-factorOf :: Int -> Int -> Bool
-a `factorOf` b = rem b a == 0
 
-factorsOf :: Int -> [Int]
-factorsOf n = [x | x <- [2 .. floor $ sqrt $ fromIntegral n], x `factorOf` n]
+-- 範囲指定
+limit :: Integer 
+limit = 600851475143
 
-isPrime :: Int -> Bool
-isPrime n
-	| n < 2  	= False
-	| n == 2 	= True
-	| otherwise = null $ factorsOf n
+-- 素数のリスト生成
+primes :: [Integer]
+primes = 2 : filter (null . tail . primeFactors) [3,5..]
 
-prime :: [Int] -> [Int]
-prime [] = []
-prime (x:xs)
-	| isPrime x  = x : prime xs
-	| otherwise = prime xs
-		
-lastPrimeFactorOf :: Int -> Int
-lastPrimeFactorOf n = last $ prime . factorsOf $ n
+-- 素因数分解
+primeFactors :: Integer -> [Integer]  
+primeFactors n = factor n primes
+	where 
+		factor :: Integer -> [Integer] -> [Integer]
+		factor n (p:ps)
+			| p*p > n 			= [n]
+			| n `mod` p == 0	= p : factor (n `div` p) (p:ps)
+			| otherwise			= factor n ps
 
-main :: IO ()
-main = print $ lastPrimeFactorOf 600851475143
