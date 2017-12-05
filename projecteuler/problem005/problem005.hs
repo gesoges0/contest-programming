@@ -24,7 +24,6 @@ areAllZero [x]
 areAllZero (x:xs)
     | x == 0    = areAllZero xs
     | otherwise = False
-
 ans2 = head [x | x<-[21..], let ys = map (x `mod`) [1..20], areAllZero ys]
 
 -- 解法3:
@@ -37,6 +36,10 @@ listLcm [x] = x
 listLcm (x:xs) = lcm x (listLcm xs)
 ans3 = listLcm [1..20]
 
+-- 解法4:
+-- foldr1を用いる
+-- :t foldr1 :: (a->a->a) -> [a] -> a
+ans4 = foldr1 lcm [1..20]
 
 
 
